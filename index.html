@@ -146,6 +146,38 @@
   .empty p{font-size:14px;font-weight:600;color:var(--ink)}.empty .s{font-size:12.5px;color:var(--faint);margin-top:4px}
   .empty .btn{margin-top:16px}
 
+  /* ── pipeline board ── */
+  .board-hint{font-size:12px;color:var(--muted);margin-bottom:14px;padding:10px 14px;background:var(--surface);
+    border:1px solid var(--line);border-radius:11px;display:flex;align-items:center;gap:7px}
+  .board-hint b{color:var(--ink);font-weight:700}
+  .board-wrap{overflow-x:auto;padding-bottom:10px;margin:0 -4px}
+  .board{display:flex;gap:13px;align-items:flex-start;padding:0 4px;min-width:min-content}
+  .col{flex:0 0 250px;width:250px;background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    display:flex;flex-direction:column;max-height:calc(100vh - 250px)}
+  .col.dragover{border-color:var(--accent);background:var(--surface2);box-shadow:0 0 0 3px rgba(79,140,255,.12)}
+  .col-hd{padding:12px 13px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}
+  .col-hd .sd{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+  .col-hd .cn{font-size:12.5px;font-weight:800;letter-spacing:-.1px}
+  .col-hd .cc{font-size:10.5px;font-weight:700;color:var(--muted);background:var(--bg);border:1px solid var(--line);padding:1px 7px;border-radius:20px}
+  .col-hd .cv{margin-left:auto;font-size:11px;font-weight:800;color:var(--faint)}
+  .col-body{padding:8px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;min-height:64px;flex:1}
+  .col-empty{font-size:11.5px;color:#445469;text-align:center;padding:16px 8px;border:1px dashed var(--line);border-radius:10px}
+  .pcard{background:var(--surface2);border:1px solid var(--line);border-radius:11px;padding:11px;cursor:grab;transition:.12s}
+  .pcard:hover{border-color:var(--line2);background:var(--raised)}
+  .pcard:active{cursor:grabbing}
+  .pcard.dragging{opacity:.35}
+  .pcard .pch{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+  .pcard .av{width:30px;height:30px;border-radius:8px;font-size:11px}
+  .pcard .nm{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pcard .pmeta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:9px}
+  .pcard .prem{font-size:12.5px;font-weight:800;color:#86dcc0}
+  .pcard .mv{width:100%;font-size:11.5px;font-weight:600;padding:7px 26px 7px 9px;border-radius:8px;background-color:var(--surface);
+    border:1px solid var(--line);color:var(--muted);cursor:pointer;background-position:right 9px center}
+  .pcard .mv:hover{border-color:var(--line2);color:var(--ink)}
+  .moneywrap{position:relative}
+  .moneywrap span{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--faint);font-weight:600;font-size:13.5px;pointer-events:none}
+  .moneywrap input{padding-left:24px}
+
   /* ── drawer ── */
   .scrim{position:fixed;inset:0;background:rgba(5,8,14,.6);backdrop-filter:blur(2px);opacity:0;visibility:hidden;
     transition:.25s;z-index:80}
@@ -235,8 +267,8 @@
     </div>
     <nav class="nav">
       <div class="lab">Workspace</div>
-      <a class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13A4 4 0 0 1 16 11"/></svg>Prospects</a>
-      <a class="soon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg>Pipeline<span class="pill">SOON</span></a>
+      <a class="active" data-view="book"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13A4 4 0 0 1 16 11"/></svg>Prospects</a>
+      <a data-view="pipeline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg>Pipeline</a>
       <a class="soon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Follow-ups<span class="pill">SOON</span></a>
       <a class="soon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>Reports<span class="pill">SOON</span></a>
       <div class="lab">Data</div>
@@ -262,14 +294,20 @@
     </header>
 
     <div class="content">
-      <div class="stats">
+      <div class="stats" id="stats-book">
         <div class="stat"><div class="ico i-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="n tnum" id="st-total">0</div><div class="l">Total prospects</div></div>
         <div class="stat"><div class="ico i-life"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg></div><div class="n tnum" id="st-life">0</div><div class="l">Life interest</div></div>
         <div class="stat"><div class="ico i-gen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z"/></svg></div><div class="n tnum" id="st-gen">0</div><div class="l">General interest</div></div>
         <div class="stat"><div class="ico i-due"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div class="n tnum" id="st-due">0</div><div class="l">Follow-ups due</div></div>
       </div>
+      <div class="stats" id="stats-pipe" style="display:none">
+        <div class="stat"><div class="ico i-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg></div><div class="n tnum" id="pp-open">0</div><div class="l">Open cases</div></div>
+        <div class="stat"><div class="ico i-gen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div class="n tnum" id="pp-val">$0</div><div class="l">Pipeline value / yr</div></div>
+        <div class="stat"><div class="ico i-life" style="background:rgba(52,199,123,.14);color:#7ee0a6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM17 5h2a2 2 0 0 1 0 4h-2M7 5H5a2 2 0 0 0 0 4h2"/></svg></div><div class="n tnum" id="pp-won">0</div><div class="l">Won cases</div></div>
+        <div class="stat"><div class="ico i-life" style="background:rgba(52,199,123,.14);color:#7ee0a6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div class="n tnum" id="pp-wonval">$0</div><div class="l">Won value / yr</div></div>
+      </div>
 
-      <div class="book">
+      <div class="book" id="bookView">
         <div class="booktools">
           <h2>Your book</h2><span class="ct" id="bookct"></span>
           <div class="sp"></div>
@@ -283,6 +321,11 @@
           <div>Prospect</div><div>Contact</div><div>Interest</div><div>Follow-up</div><div></div>
         </div>
         <div class="rows" id="rows"></div>
+      </div>
+
+      <div id="pipeView" style="display:none">
+        <div class="board-hint">Drag a card between columns, or use the <b>stage menu</b> on each card. Tap a card to edit it.</div>
+        <div class="board-wrap"><div class="board" id="board"></div></div>
       </div>
     </div>
   </main>
@@ -301,6 +344,10 @@
     <div class="row2">
       <div class="field"><label>Phone <span class="req">*</span></label><input id="f-phone" placeholder="+65 9123 4567" autocomplete="off"></div>
       <div class="field"><label>Email</label><input id="f-email" placeholder="name@email.com" autocomplete="off"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Pipeline stage</label><select id="f-stage"></select></div>
+      <div class="field"><label>Est. annual premium</label><div class="moneywrap"><span>$</span><input id="f-premium" inputmode="numeric" placeholder="3,600"></div></div>
     </div>
     <div class="field">
       <label>Insurance interest</label>
@@ -339,9 +386,22 @@ const LIFE_SUB = ['Whole Life','Term','ILP','Critical Illness','Endowment / Savi
 const GEN_SUB  = ['Motor / Car','Home / Fire','Travel','Personal Accident','Maid / Domestic','Business / SME'];
 const KEY = 'ins_crm_prospects_v1';
 const AVCOLORS = ['#4f8cff','#37c2b4','#8b7bff','#f0a83d','#e8638a','#46b07a','#5aa6e8','#d98a4a','#9b7bd8','#3fb8c4'];
+const STAGES = [
+  {k:'New Lead',     c:'#5aa6e8'},
+  {k:'Contacted',    c:'#4f8cff'},
+  {k:'Appointment',  c:'#8b7bff'},
+  {k:'Quoted',       c:'#c77bd8'},
+  {k:'Application',  c:'#f0a83d'},
+  {k:'Underwriting', c:'#e8915a'},
+  {k:'Won',          c:'#34c77b'},
+  {k:'Lost',         c:'#6b7a90'},
+];
+const stageColor = k => (STAGES.find(s=>s.k===k)||STAGES[0]).c;
+function fmtK(n){ n=+n||0; if(!n) return '$0'; return n>=1000 ? '$'+(n/1000).toFixed(n%1000?1:0).replace(/\.0$/,'')+'k' : '$'+n; }
+function fmtFull(n){ n=+n||0; return '$'+n.toLocaleString('en-SG'); }
 
 let prospects = load();
-let editingId = null, filter = 'all', search = '';
+let editingId = null, filter = 'all', search = '', currentView = 'book';
 const interest = new Set(), subs = new Set();
 
 function load(){ try{ return JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ return []; } }
@@ -359,6 +419,7 @@ function buildSubs(){
   });
 }
 buildSubs();
+document.getElementById('f-stage').innerHTML = STAGES.map(s=>`<option>${s.k}</option>`).join('');
 
 document.querySelectorAll('.chip[data-interest]').forEach(ch=>ch.onclick=()=>{
   const v=ch.dataset.interest;
@@ -447,7 +508,87 @@ function renderRows(){
     row.onclick=()=>startEdit(id);
   });
 }
-function render(){ renderStats(); renderRows(); }
+function render(){
+  if(currentView==='pipeline'){ renderPipeStats(); renderPipeline(); }
+  else { renderStats(); renderRows(); }
+}
+
+/* ── pipeline board ── */
+function pipeFiltered(){
+  let list=prospects.slice();
+  if(filter!=='all') list=list.filter(p=>(p.interest||[]).includes(filter));
+  if(search){ const q=search.toLowerCase();
+    list=list.filter(p=>[p.name,p.phone,p.email,p.notes,p.source,(p.subs||[]).join(' ')].join(' ').toLowerCase().includes(q)); }
+  return list;
+}
+function renderPipeStats(){
+  let open=0, openVal=0, won=0, wonVal=0;
+  prospects.forEach(p=>{ const st=p.stage||'New Lead', pr=+p.premium||0;
+    if(st==='Won'){ won++; wonVal+=pr; }
+    else if(st!=='Lost'){ open++; openVal+=pr; } });
+  document.getElementById('pp-open').textContent=open;
+  document.getElementById('pp-val').textContent=fmtK(openVal);
+  document.getElementById('pp-won').textContent=won;
+  document.getElementById('pp-wonval').textContent=fmtK(wonVal);
+}
+function renderPipeline(){
+  const board=document.getElementById('board');
+  const list=pipeFiltered();
+  board.innerHTML=STAGES.map(s=>{
+    const cards=list.filter(p=>(p.stage||'New Lead')===s.k);
+    const val=cards.reduce((a,p)=>a+(+p.premium||0),0);
+    const inner = cards.length ? cards.map(p=>{
+      const tags=(p.interest||[]).map(i=>`<span class="tag ${i==='life'?'life':'gen'}">${i==='life'?'Life':'Gen'}</span>`).join('');
+      const dl=dueLabel(p.followup);
+      return `<div class="pcard" draggable="true" data-id="${p.id}">
+        <div class="pch"><div class="av" style="background:${avColor(p.name)}">${esc(initials(p.name))}</div><div class="nm">${esc(p.name)}</div></div>
+        <div class="pmeta">${tags}${p.premium?`<span class="prem">${fmtFull(p.premium)}</span>`:''}${dl?`<span class="due-pill ${dl.cls}"><span class="d"></span>${dl.txt}</span>`:''}</div>
+        <select class="mv" data-id="${p.id}">${STAGES.map(x=>`<option ${x.k===s.k?'selected':''}>${x.k}</option>`).join('')}</select>
+      </div>`;
+    }).join('') : `<div class="col-empty">Drop here</div>`;
+    return `<div class="col" data-stage="${s.k}">
+      <div class="col-hd"><span class="sd" style="background:${s.c}"></span><span class="cn">${s.k}</span><span class="cc">${cards.length}</span><span class="cv">${val?fmtK(val):''}</span></div>
+      <div class="col-body">${inner}</div>
+    </div>`;
+  }).join('');
+  wirePipeline();
+}
+function wirePipeline(){
+  const board=document.getElementById('board');
+  board.querySelectorAll('.pcard').forEach(card=>{
+    const id=card.dataset.id;
+    card.querySelector('.mv').onchange=e=>{ moveStage(id, e.target.value); };
+    card.querySelector('.mv').onclick=e=>e.stopPropagation();
+    card.onclick=e=>{ if(e.target.closest('.mv')) return; startEdit(id); };
+    card.ondragstart=e=>{ card.classList.add('dragging'); e.dataTransfer.setData('text/plain', id); e.dataTransfer.effectAllowed='move'; };
+    card.ondragend=()=>card.classList.remove('dragging');
+  });
+  board.querySelectorAll('.col').forEach(col=>{
+    col.ondragover=e=>{ e.preventDefault(); col.classList.add('dragover'); };
+    col.ondragleave=()=>col.classList.remove('dragover');
+    col.ondrop=e=>{ e.preventDefault(); col.classList.remove('dragover');
+      const id=e.dataTransfer.getData('text/plain'); if(id) moveStage(id, col.dataset.stage); };
+  });
+}
+function moveStage(id, stage){
+  const p=prospects.find(x=>x.id===id); if(!p || (p.stage||'New Lead')===stage) return;
+  p.stage=stage; p.updated=Date.now(); save(); render();
+  toast(`${_fn(p.name)} → ${stage}`);
+}
+function _fn(n){ return (n||'').trim().split(/\s+/)[0]||'Prospect'; }
+
+/* ── view switching ── */
+function switchView(view){
+  currentView=view;
+  document.querySelectorAll('.nav a[data-view]').forEach(a=>a.classList.toggle('active', a.dataset.view===view));
+  document.getElementById('bookView').style.display = view==='book'?'':'none';
+  document.getElementById('pipeView').style.display = view==='pipeline'?'':'none';
+  document.getElementById('stats-book').style.display = view==='book'?'':'none';
+  document.getElementById('stats-pipe').style.display = view==='pipeline'?'':'none';
+  document.querySelector('.topbar .ttl h1').textContent = view==='pipeline'?'Pipeline':'Prospects';
+  document.getElementById('searchInput').placeholder = view==='pipeline'?'Search the board…':'Search prospects…';
+  render();
+}
 
 /* ── drawer ── */
 function openDrawer(){ document.getElementById('drawer').classList.add('show'); document.getElementById('scrim').classList.add('show');
@@ -459,6 +600,7 @@ function clearForm(){
   editingId=null;
   ['f-id','f-name','f-phone','f-email','f-ref','f-followup','f-notes'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('f-source').value=''; document.getElementById('refField').style.display='none';
+  document.getElementById('f-stage').value='New Lead'; document.getElementById('f-premium').value='';
   interest.clear(); subs.clear();
   document.querySelectorAll('.chip[data-interest]').forEach(c=>c.classList.remove('on'));
   document.querySelectorAll('.subchip').forEach(c=>c.classList.remove('on'));
@@ -479,6 +621,8 @@ function startEdit(id){
   document.getElementById('f-ref').value=p.ref||'';
   document.getElementById('f-followup').value=p.followup||'';
   document.getElementById('f-notes').value=p.notes||'';
+  document.getElementById('f-stage').value=p.stage||'New Lead';
+  document.getElementById('f-premium').value=p.premium||'';
   document.getElementById('refField').style.display=(p.source==='Referral')?'block':'none';
   (p.interest||[]).forEach(i=>{ interest.add(i); const ch=document.querySelector(`.chip[data-interest="${i}"]`); if(ch)ch.classList.add('on');
     document.getElementById('sub-'+i).classList.add('show'); });
@@ -506,6 +650,8 @@ function saveProspect(){
   const data={ name, phone,
     email:document.getElementById('f-email').value.trim(),
     interest:[...interest], subs:[...subs],
+    stage:document.getElementById('f-stage').value,
+    premium:parseInt((document.getElementById('f-premium').value||'').replace(/[^\d]/g,''))||null,
     source:document.getElementById('f-source').value,
     ref:document.getElementById('f-ref').value.trim(),
     followup:document.getElementById('f-followup').value,
@@ -539,10 +685,11 @@ document.getElementById('scrim').onclick=closeDrawer;
 document.getElementById('newBtn').onclick=()=>{ clearForm(); openDrawer(); };
 document.getElementById('exportBtn').onclick=exportCSV;
 document.getElementById('navExport').onclick=exportCSV;
-document.getElementById('searchInput').oninput=e=>{ search=e.target.value.trim(); renderRows(); };
+document.getElementById('searchInput').oninput=e=>{ search=e.target.value.trim(); render(); };
 document.querySelectorAll('#filterSeg button').forEach(b=>b.onclick=()=>{
-  document.querySelectorAll('#filterSeg button').forEach(x=>x.classList.remove('on')); b.classList.add('on'); filter=b.dataset.f; renderRows();
+  document.querySelectorAll('#filterSeg button').forEach(x=>x.classList.remove('on')); b.classList.add('on'); filter=b.dataset.f; render();
 });
+document.querySelectorAll('.nav a[data-view]').forEach(a=>a.onclick=()=>switchView(a.dataset.view));
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape') closeDrawer();
   if((e.metaKey||e.ctrlKey)&&e.key==='Enter' && document.getElementById('drawer').classList.contains('show')) saveProspect();
