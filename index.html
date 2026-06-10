@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prospects — Insurance CRM</title>
+<meta name="theme-color" content="#0f1b2d">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z' fill='%2336b3a8'/%3E%3Cpath d='M8.5 12l2.4 2.4L15.8 9' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#0c1320; --panel:#121d30; --panel2:#16243b; --line:#23354f;
+    --ink:#eaf1fb; --muted:#8ea3c0; --faint:#5d728f;
+    --accent:#36b3a8; --accent2:#3d7eff; --life:#7c5cff; --gen:#f0a13a;
+    --ok:#2fbf71; --bad:#ef5d6b; --shadow:0 10px 30px rgba(0,0,0,.4);
+  }
+  html,body{height:100%}
+  body{background:linear-gradient(180deg,#0b121f,#0c1320 40%);color:var(--ink);
+    font-family:'Inter','Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.45}
+  a{color:inherit}
+  .wrap{max-width:1180px;margin:0 auto;padding:18px 16px 80px}
+
+  /* ── header ── */
+  header.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+  .brand{display:flex;align-items:center;gap:11px}
+  .logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+    display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(61,126,255,.35);flex-shrink:0}
+  .logo svg{width:21px;height:21px}
+  .brand h1{font-size:18px;font-weight:800;letter-spacing:.2px}
+  .brand p{font-size:11.5px;color:var(--muted);font-weight:500;margin-top:1px}
+  .top .spacer{flex:1}
+  .btn{border:1px solid var(--line);background:var(--panel2);color:var(--ink);font:600 13px/1 inherit;
+    padding:9px 13px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.15s;white-space:nowrap}
+  .btn:hover{border-color:#33507a;background:#1a2c47}
+  .btn.ghost{background:transparent}
+  .btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;
+    box-shadow:0 4px 14px rgba(61,126,255,.32);font-weight:700}
+  .btn.primary:hover{filter:brightness(1.07)}
+  .btn svg{width:15px;height:15px}
+
+  /* ── stats strip ── */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:13px 15px}
+  .stat .n{font-size:23px;font-weight:800;letter-spacing:-.5px}
+  .stat .l{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+  .stat.due .n{color:var(--gen)}
+
+  .grid{display:grid;grid-template-columns:400px 1fr;gap:18px;align-items:start}
+
+  /* ── form card ── */
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+  .card .hd{padding:15px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+  .card .hd h2{font-size:14.5px;font-weight:800}
+  .card .hd .sub{font-size:11px;color:var(--muted)}
+  .form{padding:16px 18px}
+  .field{margin-bottom:13px}
+  .field label{display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:5px;letter-spacing:.2px}
+  .field label .req{color:var(--bad)}
+  input,select,textarea{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:10px;
+    color:var(--ink);font:500 13.5px/1.4 inherit;padding:10px 12px;transition:.15s;outline:none}
+  input::placeholder,textarea::placeholder{color:#52688a}
+  input:focus,select:focus,textarea:focus{border-color:var(--accent2);background:#172a45;box-shadow:0 0 0 3px rgba(61,126,255,.14)}
+  input.err,select.err{border-color:var(--bad);box-shadow:0 0 0 3px rgba(239,93,107,.14)}
+  textarea{resize:vertical;min-height:64px}
+  select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' fill='none' stroke='%238ea3c0' stroke-width='1.6' stroke-linecap='round'/></svg>");
+    background-repeat:no-repeat;background-position:right 11px center;padding-right:30px}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+  /* interest chips */
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chip{border:1px solid var(--line);background:var(--panel2);color:var(--muted);font:700 12px/1 inherit;
+    padding:8px 12px;border-radius:999px;cursor:pointer;user-select:none;transition:.15s;display:inline-flex;align-items:center;gap:6px}
+  .chip .dot{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.5}
+  .chip:hover{border-color:#33507a}
+  .chip.on{color:#fff}
+  .chip.life.on{background:rgba(124,92,255,.22);border-color:var(--life);color:#cbbcff}
+  .chip.gen.on{background:rgba(240,161,58,.18);border-color:var(--gen);color:#ffd79a}
+  .subtypes{margin-top:9px;display:none}
+  .subtypes.show{display:block}
+  .subtypes .lbl{font-size:10.5px;color:var(--faint);font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin:8px 0 5px}
+  .subchip{border:1px solid var(--line);background:transparent;color:var(--muted);font:600 11.5px/1 inherit;
+    padding:6px 10px;border-radius:8px;cursor:pointer;transition:.15s}
+  .subchip.on{background:#1c2d49;border-color:#3a567f;color:var(--ink)}
+
+  .form .actions{display:flex;gap:9px;margin-top:6px}
+  .form .actions .btn{flex:1;justify-content:center}
+  #refField{display:none}
+
+  /* ── list ── */
+  .listcard{min-height:300px}
+  .listhd{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .listhd h2{font-size:14.5px;font-weight:800}
+  .search{flex:1;min-width:160px;position:relative}
+  .search input{padding-left:32px;font-size:13px}
+  .search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:14px;height:14px;opacity:.5}
+  .seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+  .seg button{background:transparent;border:none;color:var(--muted);font:700 11.5px/1 inherit;padding:8px 11px;cursor:pointer}
+  .seg button.on{background:#1c2d49;color:var(--ink)}
+
+  .rows{padding:6px}
+  .prow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:12px 12px;border-radius:12px;cursor:pointer;transition:.12s;border:1px solid transparent}
+  .prow:hover{background:var(--panel2);border-color:var(--line)}
+  .prow.editing{background:#15263f;border-color:#33507a}
+  .pname{font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .pmeta{font-size:11.5px;color:var(--muted);margin-top:3px;display:flex;gap:10px;flex-wrap:wrap}
+  .pmeta b{color:#b9cae3;font-weight:600}
+  .tag{font-size:10px;font-weight:800;padding:2.5px 8px;border-radius:999px;letter-spacing:.3px;text-transform:uppercase}
+  .tag.life{background:rgba(124,92,255,.18);color:#c3b2ff}
+  .tag.gen{background:rgba(240,161,58,.16);color:#ffce8c}
+  .due-pill{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;background:#1d2c43;color:var(--muted)}
+  .due-pill.soon{background:rgba(240,161,58,.18);color:#ffce8c}
+  .due-pill.over{background:rgba(239,93,107,.18);color:#ff9aa4}
+  .pactions{display:flex;gap:4px;opacity:0;transition:.12s}
+  .prow:hover .pactions{opacity:1}
+  .iconbtn{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--muted);
+    cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.12s}
+  .iconbtn:hover{color:var(--ink);border-color:#33507a}
+  .iconbtn.del:hover{color:#fff;background:var(--bad);border-color:var(--bad)}
+  .iconbtn svg{width:14px;height:14px}
+
+  .empty{text-align:center;padding:50px 20px;color:var(--muted)}
+  .empty svg{width:46px;height:46px;opacity:.3;margin-bottom:12px}
+  .empty p{font-size:13.5px}.empty .s{font-size:12px;color:var(--faint);margin-top:4px}
+
+  /* toast */
+  #toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);
+    background:#16243b;border:1px solid #345788;color:var(--ink);font:700 13px/1 inherit;padding:12px 18px;border-radius:12px;
+    box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.3s;z-index:90;display:flex;align-items:center;gap:9px}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  #toast .ic{width:18px;height:18px;color:var(--ok)}
+
+  .savehint{font-size:11px;color:var(--faint);text-align:center;margin-top:14px}
+  .savehint b{color:var(--muted)}
+
+  @media(max-width:860px){
+    .grid{grid-template-columns:1fr}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .form .card{position:static}
+  }
+  @media(max-width:480px){
+    .wrap{padding:14px 12px 70px}
+    .brand h1{font-size:16px}
+    .pactions{opacity:1}
+    .stat .n{font-size:20px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="logo"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z" fill="#fff" opacity=".95"/><path d="M8.5 12l2.4 2.4L15.8 9" stroke="#3d7eff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div><h1>Prospects</h1><p>Insurance pipeline &amp; prospecting</p></div>
+    </div>
+    <div class="spacer"></div>
+    <button class="btn ghost" id="exportBtn" title="Export CSV"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>Export</button>
+    <button class="btn primary" id="newBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>New Prospect</button>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><div class="n" id="st-total">0</div><div class="l">Total prospects</div></div>
+    <div class="stat"><div class="n" id="st-life">0</div><div class="l">Life interest</div></div>
+    <div class="stat"><div class="n" id="st-gen">0</div><div class="l">General interest</div></div>
+    <div class="stat due"><div class="n" id="st-due">0</div><div class="l">Follow-ups due</div></div>
+  </div>
+
+  <div class="grid">
+    <!-- ── intake form ── -->
+    <div class="form">
+      <div class="card">
+        <div class="hd"><h2 id="formTitle">New prospect</h2><span class="sub" id="formSub">Add to your book</span></div>
+        <div class="form" style="padding:16px 18px">
+          <input type="hidden" id="f-id">
+          <div class="field">
+            <label>Full name <span class="req">*</span></label>
+            <input id="f-name" placeholder="e.g. Tan Wei Ming" autocomplete="off">
+          </div>
+          <div class="row2">
+            <div class="field"><label>Phone <span class="req">*</span></label><input id="f-phone" placeholder="+65 9123 4567" autocomplete="off"></div>
+            <div class="field"><label>Email</label><input id="f-email" placeholder="name@email.com" autocomplete="off"></div>
+          </div>
+
+          <div class="field">
+            <label>Insurance interest</label>
+            <div class="chips">
+              <div class="chip life" data-interest="life"><span class="dot"></span>Life</div>
+              <div class="chip gen" data-interest="general"><span class="dot"></span>General</div>
+            </div>
+            <div class="subtypes" id="sub-life">
+              <div class="lbl">Life lines</div>
+              <div class="chips" data-group="life-sub"></div>
+            </div>
+            <div class="subtypes" id="sub-general">
+              <div class="lbl">General lines</div>
+              <div class="chips" data-group="general-sub"></div>
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label>Source</label>
+              <select id="f-source">
+                <option value="">—</option>
+                <option>Referral</option><option>Existing client</option><option>Cold call</option>
+                <option>Walk-in</option><option>Social media</option><option>Event / roadshow</option>
+                <option>Online lead</option><option>Other</option>
+              </select>
+            </div>
+            <div class="field" id="refField">
+              <label>Referred by</label>
+              <input id="f-ref" placeholder="Who referred them?" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Next follow-up</label>
+            <input type="date" id="f-followup">
+          </div>
+
+          <div class="field">
+            <label>Notes</label>
+            <textarea id="f-notes" placeholder="Context, needs, budget, life stage…"></textarea>
+          </div>
+
+          <div class="actions">
+            <button class="btn ghost" id="cancelBtn" style="display:none">Cancel</button>
+            <button class="btn primary" id="saveBtn" style="flex:2">Save prospect</button>
+          </div>
+        </div>
+      </div>
+      <p class="savehint">Saved on <b>this device</b>. Cloud sync across phone &amp; laptop is one step away.</p>
+    </div>
+
+    <!-- ── list ── -->
+    <div>
+      <div class="card listcard">
+        <div class="listhd">
+          <h2>Your book</h2>
+          <div class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            <input id="searchInput" placeholder="Search name, phone, notes…">
+          </div>
+          <div class="seg" id="filterSeg">
+            <button data-f="all" class="on">All</button>
+            <button data-f="life">Life</button>
+            <button data-f="general">General</button>
+          </div>
+        </div>
+        <div class="rows" id="rows"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><span id="toastMsg">Saved</span></div>
+
+<script>
+const LIFE_SUB = ['Whole Life','Term','ILP','Critical Illness','Endowment / Savings','Retirement','Hospital / Health'];
+const GEN_SUB  = ['Motor / Car','Home / Fire','Travel','Personal Accident','Maid / Domestic','Business / SME'];
+const KEY = 'ins_crm_prospects_v1';
+
+let prospects = load();
+let editingId = null;
+let filter = 'all';
+let search = '';
+const interest = new Set();
+const subs = new Set();
+
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ return []; } }
+function save(){ localStorage.setItem(KEY, JSON.stringify(prospects)); }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+function esc(s){ return (s==null?'':''+s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+// ── build sub-type chips ──
+function buildSubs(){
+  const lw = document.querySelector('[data-group="life-sub"]');
+  const gw = document.querySelector('[data-group="general-sub"]');
+  lw.innerHTML = LIFE_SUB.map(s=>`<div class="subchip" data-sub="${esc(s)}">${esc(s)}</div>`).join('');
+  gw.innerHTML = GEN_SUB.map(s=>`<div class="subchip" data-sub="${esc(s)}">${esc(s)}</div>`).join('');
+  document.querySelectorAll('.subchip').forEach(c=>c.onclick=()=>{
+    const v=c.dataset.sub; if(subs.has(v)){subs.delete(v);c.classList.remove('on');} else {subs.add(v);c.classList.add('on');}
+  });
+}
+buildSubs();
+
+// ── interest chips ──
+document.querySelectorAll('.chip[data-interest]').forEach(ch=>ch.onclick=()=>{
+  const v=ch.dataset.interest;
+  if(interest.has(v)){ interest.delete(v); ch.classList.remove('on'); }
+  else { interest.add(v); ch.classList.add('on'); }
+  document.getElementById('sub-life').classList.toggle('show', interest.has('life'));
+  document.getElementById('sub-general').classList.toggle('show', interest.has('general'));
+});
+
+// ── source → show referred-by ──
+document.getElementById('f-source').onchange = e=>{
+  document.getElementById('refField').style.display = e.target.value==='Referral' ? 'block' : 'none';
+};
+
+// ── stats ──
+function renderStats(){
+  const today = new Date(); today.setHours(0,0,0,0);
+  let life=0, gen=0, due=0;
+  prospects.forEach(p=>{
+    if((p.interest||[]).includes('life')) life++;
+    if((p.interest||[]).includes('general')) gen++;
+    if(p.followup){ const d=new Date(p.followup); if(d<=today) due++; }
+  });
+  document.getElementById('st-total').textContent = prospects.length;
+  document.getElementById('st-life').textContent = life;
+  document.getElementById('st-gen').textContent = gen;
+  document.getElementById('st-due').textContent = due;
+}
+
+// ── relative follow-up label ──
+function dueLabel(iso){
+  if(!iso) return null;
+  const d=new Date(iso); d.setHours(0,0,0,0);
+  const t=new Date(); t.setHours(0,0,0,0);
+  const days=Math.round((d-t)/86400000);
+  let cls='', txt;
+  if(days<0){ cls='over'; txt=`${-days}d overdue`; }
+  else if(days===0){ cls='soon'; txt='Today'; }
+  else if(days===1){ cls='soon'; txt='Tomorrow'; }
+  else if(days<=7){ cls='soon'; txt=`In ${days}d`; }
+  else txt=d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+  return {cls,txt};
+}
+
+// ── render list ──
+function renderRows(){
+  const wrap=document.getElementById('rows');
+  let list=prospects.slice().sort((a,b)=>{
+    // overdue/soonest follow-ups first, then newest
+    const fa=a.followup?new Date(a.followup):null, fb=b.followup?new Date(b.followup):null;
+    if(fa&&fb) return fa-fb; if(fa) return -1; if(fb) return 1;
+    return (b.created||0)-(a.created||0);
+  });
+  if(filter!=='all') list=list.filter(p=>(p.interest||[]).includes(filter));
+  if(search){ const q=search.toLowerCase();
+    list=list.filter(p=>[p.name,p.phone,p.email,p.notes,p.source,(p.subs||[]).join(' ')].join(' ').toLowerCase().includes(q)); }
+
+  if(!list.length){
+    wrap.innerHTML=`<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13A4 4 0 0 1 16 11"/></svg>
+      <p>${prospects.length? 'No prospects match.' : 'No prospects yet'}</p>
+      <div class="s">${prospects.length? 'Try a different search or filter.' : 'Add your first one with the form on the left.'}</div></div>`;
+    return;
+  }
+  wrap.innerHTML = list.map(p=>{
+    const tags=(p.interest||[]).map(i=>`<span class="tag ${i==='life'?'life':'gen'}">${i==='life'?'Life':'General'}</span>`).join('');
+    const dl=dueLabel(p.followup);
+    const sub=(p.subs||[]).slice(0,2).join(', ');
+    return `<div class="prow ${p.id===editingId?'editing':''}" data-id="${p.id}">
+      <div>
+        <div class="pname">${esc(p.name)} ${tags}</div>
+        <div class="pmeta">
+          ${p.phone?`<span><b>${esc(p.phone)}</b></span>`:''}
+          ${p.source?`<span>${esc(p.source)}</span>`:''}
+          ${sub?`<span>${esc(sub)}</span>`:''}
+          ${dl?`<span class="due-pill ${dl.cls}">⏰ ${dl.txt}</span>`:''}
+        </div>
+      </div>
+      <div class="pactions">
+        <button class="iconbtn" data-act="edit" title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+        <button class="iconbtn del" data-act="del" title="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+      </div>
+    </div>`;
+  }).join('');
+
+  wrap.querySelectorAll('.prow').forEach(row=>{
+    const id=row.dataset.id;
+    row.querySelector('[data-act="edit"]').onclick=e=>{e.stopPropagation();startEdit(id);};
+    row.querySelector('[data-act="del"]').onclick=e=>{e.stopPropagation();del(id);};
+    row.onclick=()=>startEdit(id);
+  });
+}
+
+function render(){ renderStats(); renderRows(); }
+
+// ── form helpers ──
+function clearForm(){
+  editingId=null;
+  ['f-id','f-name','f-phone','f-email','f-ref','f-followup','f-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-source').value='';
+  document.getElementById('refField').style.display='none';
+  interest.clear(); subs.clear();
+  document.querySelectorAll('.chip[data-interest]').forEach(c=>c.classList.remove('on'));
+  document.querySelectorAll('.subchip').forEach(c=>c.classList.remove('on'));
+  document.getElementById('sub-life').classList.remove('show');
+  document.getElementById('sub-general').classList.remove('show');
+  document.querySelectorAll('input,select').forEach(el=>el.classList.remove('err'));
+  document.getElementById('formTitle').textContent='New prospect';
+  document.getElementById('formSub').textContent='Add to your book';
+  document.getElementById('saveBtn').textContent='Save prospect';
+  document.getElementById('cancelBtn').style.display='none';
+}
+
+function startEdit(id){
+  const p=prospects.find(x=>x.id===id); if(!p) return;
+  clearForm();
+  editingId=id;
+  document.getElementById('f-name').value=p.name||'';
+  document.getElementById('f-phone').value=p.phone||'';
+  document.getElementById('f-email').value=p.email||'';
+  document.getElementById('f-source').value=p.source||'';
+  document.getElementById('f-ref').value=p.ref||'';
+  document.getElementById('f-followup').value=p.followup||'';
+  document.getElementById('f-notes').value=p.notes||'';
+  document.getElementById('refField').style.display=(p.source==='Referral')?'block':'none';
+  (p.interest||[]).forEach(i=>{ interest.add(i);
+    const ch=document.querySelector(`.chip[data-interest="${i}"]`); if(ch)ch.classList.add('on');
+    document.getElementById('sub-'+i).classList.add('show'); });
+  (p.subs||[]).forEach(s=>{ subs.add(s);
+    const sc=document.querySelector(`.subchip[data-sub="${CSS.escape(s)}"]`); if(sc)sc.classList.add('on'); });
+  document.getElementById('formTitle').textContent='Edit prospect';
+  document.getElementById('formSub').textContent=p.name||'';
+  document.getElementById('saveBtn').textContent='Update prospect';
+  document.getElementById('cancelBtn').style.display='block';
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+  document.getElementById('f-name').focus();
+}
+
+function del(id){
+  const p=prospects.find(x=>x.id===id);
+  if(!confirm(`Delete ${p?p.name:'this prospect'}? This can't be undone.`)) return;
+  prospects=prospects.filter(x=>x.id!==id);
+  if(editingId===id) clearForm();
+  save(); render(); toast('Prospect deleted');
+}
+
+function saveProspect(){
+  const name=document.getElementById('f-name').value.trim();
+  const phone=document.getElementById('f-phone').value.trim();
+  let bad=false;
+  const nEl=document.getElementById('f-name'), pEl=document.getElementById('f-phone');
+  nEl.classList.toggle('err',!name); pEl.classList.toggle('err',!phone);
+  if(!name||!phone){ toast('Name and phone are required', true); (name?pEl:nEl).focus(); return; }
+
+  const data={
+    name, phone,
+    email:document.getElementById('f-email').value.trim(),
+    interest:[...interest],
+    subs:[...subs],
+    source:document.getElementById('f-source').value,
+    ref:document.getElementById('f-ref').value.trim(),
+    followup:document.getElementById('f-followup').value,
+    notes:document.getElementById('f-notes').value.trim(),
+  };
+
+  if(editingId){
+    const i=prospects.findIndex(x=>x.id===editingId);
+    prospects[i]={...prospects[i],...data,updated:Date.now()};
+    toast('Prospect updated');
+  } else {
+    prospects.unshift({id:uid(),created:Date.now(),...data});
+    toast('Prospect added');
+  }
+  save(); clearForm(); render();
+}
+
+// ── toast ──
+let toastT;
+function toast(msg,bad){
+  const t=document.getElementById('toast');
+  document.getElementById('toastMsg').textContent=msg;
+  t.querySelector('.ic').style.color = bad ? 'var(--bad)' : 'var(--ok)';
+  t.classList.add('show'); clearTimeout(toastT);
+  toastT=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+// ── CSV export ──
+function exportCSV(){
+  if(!prospects.length){ toast('Nothing to export', true); return; }
+  const cols=['name','phone','email','interest','subs','source','ref','followup','notes'];
+  const head=cols.join(',');
+  const body=prospects.map(p=>cols.map(c=>{
+    let v=p[c]; if(Array.isArray(v)) v=v.join('; ');
+    return '"'+(''+(v||'')).replace(/"/g,'""')+'"';
+  }).join(',')).join('\n');
+  const blob=new Blob([head+'\n'+body],{type:'text/csv'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='prospects-'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click(); URL.revokeObjectURL(a.href);
+}
+
+// ── wire ──
+document.getElementById('saveBtn').onclick=saveProspect;
+document.getElementById('cancelBtn').onclick=clearForm;
+document.getElementById('newBtn').onclick=()=>{clearForm();window.scrollTo({top:0,behavior:'smooth'});document.getElementById('f-name').focus();};
+document.getElementById('exportBtn').onclick=exportCSV;
+document.getElementById('searchInput').oninput=e=>{search=e.target.value.trim();renderRows();};
+document.querySelectorAll('#filterSeg button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#filterSeg button').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); filter=b.dataset.f; renderRows();
+});
+document.getElementById('f-notes').addEventListener('keydown',e=>{ if((e.metaKey||e.ctrlKey)&&e.key==='Enter') saveProspect(); });
+
+render();
+</script>
+</body>
+</html>
